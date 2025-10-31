@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { supabase } from "../SupabaseClient";
 import { Link, useNavigate } from "react-router-dom";
-import UploadProfile from "../components/ProfilePicture"
+import formImage from '../assets/form.jpg'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
+
 
 function CreateAcc() {
     const [username, setUsername] = useState("")
@@ -77,13 +80,25 @@ function CreateAcc() {
     }
     return (
         <>
-            <form onSubmit={handleSubmit} id="form-container">
-                <h1>Create your account</h1>
-                <label htmlFor="username">Enter your name:<input disabled={loading} id="name" type="text" value={username} onChange={(e) => { setUsername(e.target.value) }} /></label><br />
-                <label htmlFor="email">Enter your email:<input disabled={loading} id="email" type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} /></label><br />
-                <label htmlFor="pass">Enter your password:<input disabled={loading} id="pass" type="text" value={password} onChange={(e) => { setPassword(e.target.value) }} /></label><br />
-                <button type="submit" disabled={loading}>{loading ? "Creating your account.." : "Signup"}</button><p>Already have an account? <Link to="/">login</Link></p>
-            </form>
+            {/* overall form parent  */}
+
+            <div className="flex flex-col justify-center items-center h-screen bg-gray-10">
+                {/* image div  */}
+
+                <div className="hidden md:block"><img src={formImage} alt="" /></div>
+                {/* form all content  */}
+                <div className="bg-white-500 w-fixed h-fixed px-4 py-8 flex flex-col items-center gap-4 rounded-md shadow-md text-black ">
+                    {/* form heading */}
+                    <FontAwesomeIcon icon={faUsers} className="text-blue-600 text-3xl" />
+                    <h1 className="text-2xl font-bold capitalize">Create your account</h1>
+                    <form onSubmit={handleSubmit} id="form-container">
+                        <div className="flex items-center gap-3 w-full"><FontAwesomeIcon icon={faUser} className="text-blue-600 text-lg" /><input disabled={loading} id="name" type="text" placeholder="Enter your username" value={username} onChange={(e) => { setUsername(e.target.value) }} className="border-2 border-grey-200 w-full rounded px-2 text-md focus:outline-none focus:border-blue-500 transition-all duration-300 ease-in" /></div><br />
+                        <div className="flex items-center gap-3 w-full"><FontAwesomeIcon icon={faEnvelope} className="text-blue-600 text-lg" /><input disabled={loading} id="email" type="text" placeholder="Enter your email" value={email} onChange={(e) => { setEmail(e.target.value) }} className="border-2 border-grey-200 w-full rounded px-2 text-md focus:outline-none focus:border-blue-500 transition-all duration-300 ease-in" /></div><br />
+                        <div className="flex items-center gap-3 w-full"><FontAwesomeIcon icon={faLock} className="text-blue-600 text-lg" /><input disabled={loading} id="pass" type="text" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value) }} className="border-2 border-grey-200 w-full rounded px-2 text-md focus:outline-none focus:border-blue-500 transition-all duration-300 ease-in" /></div><br />
+                        <button type="submit" disabled={loading} className="bg-blue-500 w-full p-2 rounded-md text-white">{loading ? "Creating your account.." : "Signup"}</button><p>Already have an account? <Link to="/" className="text-blue-700">login</Link></p>
+                    </form>
+                </div>
+            </div>
         </>
     )
 }

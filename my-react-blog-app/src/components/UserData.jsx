@@ -47,16 +47,9 @@ function UserData() {
     if (loading) return <p>Loading...</p>
     return (
         <>
-            <h2>hello: {userData.name}</h2>
-            <h2 className="text-lg text-gray-700">your email is: {userData.userEmail}</h2>
-            <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white">
-                <h2 className="text-4xl font-extrabold mb-4 drop-shadow-lg">
-                    Hello: {userData.name}
-                </h2>
-                <h2 className="text-lg font-medium bg-white text-gray-800 px-4 py-2 rounded-lg shadow-lg">
-                    Your email is: {userData.userEmail}
-                </h2>
-            </div>
+            <h1>hello: {userData.name} <br />
+                Your email is: {userData.userEmail}
+                </h1>
         </>
     )
 }

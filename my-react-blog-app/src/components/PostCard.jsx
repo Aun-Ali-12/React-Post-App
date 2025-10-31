@@ -93,22 +93,31 @@ function PostCard({ type }) {
     return (
         <>
             {/* post will be shown here */}
-            {
-                post && post.map((value) => (
-                    <div key={value.id} >
-                        <div>
-                            <p>{value.user_info?.user_name}</p>
-                            <img src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
+            <div className="flex flex-col items-center mt-5 gap-5">
+                {
+                    post && post.map((value) => (
+                        <div key={value.id} className="flex flex-col gap-2 w-fit p-5 border-2 border-gray-400 rounded-xl">
+                            <div className="flex items-center justify-between gap-5">
+                                {/* username and pic  */}
+                                <div className="flex items-center gap-2">
+                                    <img className="w-14 h-14 rounded-full border-2 border-blue-400" src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
+                                    <p>{value.user_info?.user_name}</p>
+                                </div>
+                                {/* del and edit btn  */}
+                                <div className="flex gap-2">
+                                    <button className="bg-blue-400 w-10 rounded text-white p-1" onClick={() => { handleEdit(value) }}>Edit</button>
+                                    <button className="bg-red-400 w-10 rounded text-white p-1" onClick={() => handleDel(value.id)}>Del</button>
+                                </div>
+                            </div>
+                            <div>
+                                <img src={value.user_posturl} alt="post" width="200" /><br />
+                                {value.user_posttext}
+                            </div>
+
                         </div>
-                        <div>
-                            <img src={value.user_posturl} alt="post" width="200" /><br />
-                            {value.user_posttext}
-                        </div>
-                        <button onClick={() => { handleEdit(value) }}>Edit</button>
-                        <button onClick={() => handleDel(value.id)}>Del</button>
-                    </div>
-                ))
-            }
+                    ))
+                }
+            </div>
         </>
     )
 

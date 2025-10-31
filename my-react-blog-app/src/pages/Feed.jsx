@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import Navbar from "../components/Navbar"
+import MobileNav from "../components/MobileNav"
 import UploadPost from "../components/PostForm"
 import PostCard from "../components/PostCard"
 import { PostProvider } from "./Context"
@@ -8,11 +8,10 @@ import { PostProvider } from "./Context"
 function Feed() {
     return (
         <>
-        <Navbar/>
-        <PostProvider>
-        <UploadPost/>
-        <PostCard type = "feed"/>
-        </PostProvider>
+            <PostProvider>
+                {/* <UploadPost/> */}
+                <PostCard type="feed" />
+            </PostProvider>
         </>
     )
 }

@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar"
+import MobileNav from "../components/MobileNav"
 import UserData from "../components/UserData"
 import Verify from "../components/Verify"
 import UploadPost from '../components/PostForm'
@@ -10,7 +10,6 @@ function Profile(){
 return(
     <>
     <Verify/>
-    <Navbar/>
     <UploadProfile/>
     <UserData/>
     <PostProvider>
