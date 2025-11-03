@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react"
 import { supabase } from "../SupabaseClient"
 import { usePost } from "../pages/Context"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 function PostCard({ type }) {
     const [post, setPost] = useState([]) //state which stores only userspecific data
+    const [open, setOpen] = useState(false)
     const { setEditingPost } = usePost()
 
 
@@ -93,27 +96,35 @@ function PostCard({ type }) {
     return (
         <>
             {/* post will be shown here */}
-            <div className="flex flex-col items-center mt-5 gap-5">
+            <div className={type === "profile" ? "grid grid-cols-1 py-20 sm:grid grid-cols-2 gap-2 py-20 md:grid grid-cols-3 gap-5 py-20 " : "flex flex-col items-center gap-5 pb-20"}>
                 {
                     post && post.map((value) => (
-                        <div key={value.id} className="flex flex-col gap-2 w-fit p-5 border-2 border-gray-400 rounded-xl">
+                        // over all post 
+                        <div key={value.id} className="flex flex-col gap-2 w-fit p-5 border-2 border-[#0866FF] rounded-xl"  >
                             <div className="flex items-center justify-between gap-5">
                                 {/* username and pic  */}
                                 <div className="flex items-center gap-2">
-                                    <img className="w-14 h-14 rounded-full border-2 border-blue-400" src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
+                                    <img className="w-14 h-14 rounded-full border border-[#0866FF]" src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
                                     <p>{value.user_info?.user_name}</p>
                                 </div>
                                 {/* del and edit btn  */}
-                                <div className="flex gap-2">
-                                    <button className="bg-blue-400 w-10 rounded text-white p-1" onClick={() => { handleEdit(value) }}>Edit</button>
-                                    <button className="bg-red-400 w-10 rounded text-white p-1" onClick={() => handleDel(value.id)}>Del</button>
-                                </div>
+                                <button onClick={() => { setOpen(!open) }}>
+                                    <FontAwesomeIcon className="text-[#0866FF]" icon={faEllipsisH} />
+                                </button>
+                                {open && (
+                                    <div>
+                                        <ul className="">
+                                            <li className="bg-blue-400 w-10 rounded text-white p-1" onClick={() => { handleEdit(value) }}>Edit</li>
+                                            <li className="bg-red-400 w-10 rounded text-white p-1" onClick={() => handleDel(value.id)}>Delete</li>
+                                            <li className="bg-red-400 w-10 rounded text-white p-1" onClick={() => handleDel(value.id)}>Share</li>
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                             <div>
                                 <img src={value.user_posturl} alt="post" width="200" /><br />
-                                {value.user_posttext}
+                                <p>{value.user_posttext}</p>
                             </div>
-
                         </div>
                     ))
                 }

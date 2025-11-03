@@ -138,10 +138,11 @@ function UploadPost() {
                     />
                 </div>
             )}
-
+<div className="hidden">
             <label htmlFor="">Upload: <input disabled={loading} ref={fileInputRef} onChange={(e) => { setPostFile(e.target.files[0]) }} type="file" /></label><br />
             <label htmlFor="">Enter text: <input disabled={loading} value={postText} onChange={(e) => { setPostText(e.target.value) }} type="text" /></label><br />
             <button onClick={handleUpload} disabled={loading}>{loading ? "Uploading" : editingPost ? "Update Post" : "Upload"}</button>
+     </div>
         </>
     )
 }

@@ -15,7 +15,7 @@ function App() {
         <div className='hidden lg: block'>
           <SideNavbar />
         </div>
-        <div className='bg-gray-100'>
+        <div>
           <Routes>
             <Route path='/signup' element={<CreateAcc />} />
             <Route path='/' element={<Login />} />
@@ -24,7 +24,7 @@ function App() {
           </Routes>
         </div>
 
-        <div className="text-2xl fixed bottom-0 left-0 w-full bg-gray-100 text-gray-900 border-t-4 border-gray-200 lg:hidden">
+        <div className="text-2xl fixed bottom-0 left-0 w-full border-t-2 border-[#0866FF] bg-white lg:hidden">
           <MobileNav />
         </div>
       </div>

@@ -10,7 +10,8 @@ function UploadProfile() {
     }, [renderProfile])
 
 
-    const UploadPic = async () => {
+    const UploadPic = async (e) => {
+        let profilePic = e.target.files[0]
         const { data } = await supabase.auth.getSession()
         let userId = data.session.user.id
         let folder = `public/${userId}-${Date.now()}`
@@ -81,15 +82,32 @@ function UploadProfile() {
 
     return (
         <>
-            <br />
-            <label htmlFor="">Add your picture:<input type="file" name="" id="" onChange={(e) => { setProfilePic(e.target.files[0]) }} /></label>
-            <button onClick={UploadPic}>Add</button>
+
+            {/* input which is linked to upload label to upload profile  */}
+            <input type="file" name="" id="profilePic" className="hidden" onChange={UploadPic} />
 
             {/* render photo here */}
             {renderProfile && (
                 <>
-                    < img src={renderProfile.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"190px"} height={"190px"} />
-                    <p>{renderProfile.user_name}</p>
+                    <div className="flex items-center bg-gray-50 rounded-lg shadow justify-around pt-3">
+                        <div>
+                            {/* profile picture */}
+                            <div className="flex flex-col items-center space-y-2">
+                                <img className="rounded-full border-2 border-blue-500" src={renderProfile.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"190px"} height={"190px"} />
+                                <label htmlFor="profilePic" className="bg-[#0866FF] rounded-lg p-2 text-sm text-white">Upload</label>
+                                <p className="font-semibold">{renderProfile.user_name}</p>
+                            </div>
+                        </div>
+                        {/* post follower following  */}
+                        <div>
+                            <ul className="flex items-center pb-10 m-5 gap-5 capitalize font-semibold">
+                                <li className="flex flex-col items-center"><p>posts</p> 10</li>
+                                <li className="flex flex-col items-center"><p>followers</p> 10</li>
+                                <li className="flex flex-col items-center"><p>following</p> 10</li>
+                            </ul>
+                        </div>
+
+                    </div>
                 </>
             )
             }

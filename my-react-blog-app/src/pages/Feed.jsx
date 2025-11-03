@@ -3,12 +3,14 @@ import MobileNav from "../components/MobileNav"
 import UploadPost from "../components/PostForm"
 import PostCard from "../components/PostCard"
 import { PostProvider } from "./Context"
+import BlogLogo from "../components/Logo"
 
 
 function Feed() {
     return (
         <>
             <PostProvider>
+                <BlogLogo/>
                 {/* <UploadPost/> */}
                 <PostCard type="feed" />
             </PostProvider>

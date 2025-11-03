@@ -47,9 +47,6 @@ function UserData() {
     if (loading) return <p>Loading...</p>
     return (
         <>
-            <h1>hello: {userData.name} <br />
-                Your email is: {userData.userEmail}
-                </h1>
         </>
     )
 }

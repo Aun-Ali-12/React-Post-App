@@ -16,16 +16,16 @@ function MobileNav() {
     //Links:
     const navElements = [
         {
-            path: '/profile', label: 'Profile', icon: <FontAwesomeIcon icon={faUser} />
+            path: '/profile', label: 'Profile', icon: <FontAwesomeIcon className="text-[#0866FF]" icon={faUser} />
         },
         {
-            path: '/feed', label: 'Home', icon: <FontAwesomeIcon icon={faHome} />
+            path: '/feed', label: 'Home', icon: <FontAwesomeIcon className="text-[#0866FF]" icon={faHome} />
         },
         {
-            path: '/create', label: 'Create', icon: <FontAwesomeIcon icon={faPlus} />
+            path: '/create', label: 'Create', icon: <FontAwesomeIcon className="text-[#0866FF]" icon={faPlus} />
         },
         {
-            path: '/settings', label: 'Settings', icon: <FontAwesomeIcon icon={faCog} />
+            path: '/settings', label: 'Settings', icon: <FontAwesomeIcon className="text-[#0866FF]" icon={faCog} />
         }
     ]
     const handleLogout = async (e) => {
@@ -48,7 +48,7 @@ function MobileNav() {
         <>
             {/* <Link to='/profile'>Home</Link>
             <Link to='/feed'>Feed</Link> */}
-            <div className="flex justify-around">
+            <div className="flex justify-around p-1">
                 {navElements.map((items) => (
                     <Link key={items.path} to={items.path}>
                         <div>{items.icon}</div>
