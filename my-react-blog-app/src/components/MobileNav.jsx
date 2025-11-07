@@ -46,8 +46,6 @@ function MobileNav() {
 
     return (
         <>
-            {/* <Link to='/profile'>Home</Link>
-            <Link to='/feed'>Feed</Link> */}
             <div className="flex justify-around p-1">
                 {navElements.map((items) => (
                     <Link key={items.path} to={items.path}>

@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from 'react-router-dom'
+import { Route, Router, Routes, useLocation } from 'react-router-dom'
 import { supabase } from './SupabaseClient'
 import CreateAcc from './pages/SignUp'
 import Login from './pages/Login'
@@ -7,14 +7,21 @@ import Feed from './pages/Feed'
 import MobileNav from './components/MobileNav'
 import SideNavbar from './components/SideNav'
 
+
+
 function App() {
   console.log(supabase);
+  const location = useLocation()
   return (
     <>
+      {/* checking if the specific signup or login page is so navbar won't render  */}
+
       <div className='lg:flex min-h-screen'>
         <div className='hidden lg: block'>
-          <SideNavbar />
-        </div>
+          {location.pathname !== "/signup" && location.pathname !== "/" && (
+            <SideNavbar />
+          )}
+          </div>
         <div>
           <Routes>
             <Route path='/signup' element={<CreateAcc />} />
@@ -24,8 +31,10 @@ function App() {
           </Routes>
         </div>
 
-        <div className="text-2xl fixed bottom-0 left-0 w-full border-t-2 border-[#0866FF] bg-white lg:hidden">
-          <MobileNav />
+        <div className="text-2xl fixed bottom-0 left-0 w-full border-t border-[#0866FF] bg-white lg:hidden">
+          {location.pathname !== "/signup" && location.pathname !== "/" && (
+            <MobileNav />
+          )}
         </div>
       </div>
     </>
