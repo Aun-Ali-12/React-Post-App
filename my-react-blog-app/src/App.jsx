@@ -6,7 +6,7 @@ import Profile from './pages/Profile'
 import Feed from './pages/Feed'
 import MobileNav from './components/MobileNav'
 import SideNavbar from './components/SideNav'
-
+import Settings from './components/Setting'
 
 
 function App() {
@@ -28,6 +28,7 @@ function App() {
             <Route path='/' element={<Login />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/feed' element={<Feed />} />
+            <Route path='/settings' element={<Settings/>} />
           </Routes>
         </div>
 

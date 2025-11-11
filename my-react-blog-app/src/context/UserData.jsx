@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react"
+import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "../SupabaseClient"
 
 
-//Data which'll be rendered onto profile page 
-function UserData() {
+const AuthContext = createContext()
+
+export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [userData, setUserData] = useState(
-        {
-            name: '',
-            userEmail: ''
-        }
-    )
 
     useEffect(() => {
         async function fetchUserInfo() {
@@ -28,7 +24,7 @@ function UserData() {
                     alert(error.message)
                     return
                 }
-                setUserData({
+                setUser({
                     name: data.session.user.user_metadata.user_name || 'No name found',
                     userEmail: data.session.user.user_metadata.email || 'No email found'
                 })
@@ -43,10 +39,10 @@ function UserData() {
     }, [])
 
 
-    if (loading) return <p>Loading...</p>
     return (
-        <>
-        </>
+        <AuthContext.Provider value={{user , loading}}>
+            {children}
+        </AuthContext.Provider>
     )
 }
-export default UserData
+export const useAuth = () => useContext(AuthContext)

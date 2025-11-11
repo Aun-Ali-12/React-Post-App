@@ -16,7 +16,7 @@ return(
     <UserData/>
     <PostProvider>
     <UploadPost/>
-    <PostCard type = "profile"/>
+    <PostCard type = "profile" compact={true}/>
     </PostProvider>
     </>
 )

@@ -12,7 +12,7 @@ function Feed() {
             <PostProvider>
                 <BlogLogo/>
                 {/* <UploadPost/> */}
-                <PostCard type="feed" />
+                <PostCard type="feed" compact={false} />
             </PostProvider>
         </>
     )

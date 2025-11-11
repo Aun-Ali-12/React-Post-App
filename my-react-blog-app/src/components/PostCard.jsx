@@ -4,7 +4,7 @@ import { usePost } from "../pages/Context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisH, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
-function PostCard({ type }) {
+function PostCard({ type, compact }) {
     const [post, setPost] = useState([]) //state which stores only userspecific data
     const [postId, setPostId] = useState(null) //state which will store id 
     const [menuOpen, setMenuOpen] = useState(false)
@@ -20,7 +20,7 @@ function PostCard({ type }) {
             }
         }
         fetchPosts()
-    }, [post])
+    }, [type])
 
 
     //Shows Posts of Loggedin User:
@@ -97,9 +97,12 @@ function PostCard({ type }) {
     return (
         <>
             {/* post will be shown here */}
-            <div className={type === "profile" ? "grid grid-cols-1 py-20 md:grid grid-cols-2 gap-1 py-20 animate-fadeInUp rounded-lg shadow-md bg-gray-50 mt-5 border border-[#0866FF]" : "flex flex-col items-center gap-5 pb-20 animate-fadeInUp"}>
+            <div className={`${type === "profile"
+                ? "grid grid-cols-2 gap-2 p-4"
+                : "flex flex-col items-center gap-5 p-4"
+                } animate-fadeInUp`}>
                 {
-                    post && post.map((value) => (
+                    !compact && post && post.map((value) => (
                         // over all post 
                         <div key={value.id} className="flex flex-col gap-2 w-fit p-5 border-2 border-[#0866FF] rounded-xl"  >
                             <div className="flex items-center justify-between gap-5 ">
@@ -116,22 +119,30 @@ function PostCard({ type }) {
                                     </button>
                                     {postId === value.id && menuOpen && (
                                         <div className="">
-                                            <ul className={`absolute right-0 top-0 py-10 px-8 bg-gray-100 w-sm shadow border border-[#0866FF] rounded ${menuOpen? "animate-leftSlide": "animate-closeBtn"}`}>
+                                            <ul className={`absolute right-0 top-0 py-10 px-8 bg-gray-100 w-sm shadow border border-[#0866FF] rounded ${menuOpen ? "animate-leftSlide" : "animate-closeBtn"}`}>
                                                 <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => { handleEdit(value) }}>Edit</li>
                                                 <li className="inline w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Delete</li>
                                                 <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Share</li>
-                                                 <div>
+                                                <div>
                                                     <button onClick={() => { setMenuOpen(false) }}><FontAwesomeIcon className="text-[#0866FF] relative left-14 top-8" icon={faCircleXmark} /></button>
                                                 </div>
                                             </ul>
                                         </div>
                                     )}
                                 </div>
+
                             </div>
-                            <div>
+                            <div key={value.id}>
                                 <img src={value.user_posturl} alt="post" width="200" /><br />
                                 <p>{value.user_posttext}</p>
                             </div>
+                        </div>
+                    ))
+                }
+                {
+                    compact && post && post.map((value) => (
+                        <div key={value.id}>
+                            <img src={value.user_posturl} alt="post" width="200" /><br />
                         </div>
                     ))
                 }
