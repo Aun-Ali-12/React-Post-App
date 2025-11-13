@@ -16,19 +16,19 @@ function App() {
     <>
       {/* checking if the specific signup or login page is so navbar won't render  */}
 
-      <div className='lg:flex min-h-screen'>
-        <div className='hidden lg: block'>
+      <div className='lg:flex gap-10 min-h-screen'>
+        <div className='hidden md:hidden lg:block bg-gray-100 w-[25%] shadow-md'>
           {location.pathname !== "/signup" && location.pathname !== "/" && (
             <SideNavbar />
           )}
-          </div>
+        </div>
         <div>
           <Routes>
             <Route path='/signup' element={<CreateAcc />} />
             <Route path='/' element={<Login />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/feed' element={<Feed />} />
-            <Route path='/settings' element={<Settings/>} />
+            <Route path='/settings' element={<Settings />} />
           </Routes>
         </div>
 

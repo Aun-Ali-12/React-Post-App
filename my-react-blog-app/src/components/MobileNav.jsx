@@ -2,9 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { supabase } from "../SupabaseClient"
 import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUser, faCog, faPlus, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-
-
+import { faHome, faUser, faCog, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 
 function MobileNav() {
