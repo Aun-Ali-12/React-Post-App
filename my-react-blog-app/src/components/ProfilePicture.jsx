@@ -89,24 +89,26 @@ function UploadProfile() {
             {/* render photo here */}
             {renderProfile && (
                 <>
-                    <div className="flex items-center bg-gray-50 rounded-lg shadow-md justify-around py-5 border border-[#0866FF]">
-                        <div>
-                            {/* profile picture */}
-                            <div className="flex flex-col items-center space-y-2">
-                                <img className="rounded-full border-2 border-blue-500" src={renderProfile.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"190px"} height={"190px"} />
-                                <label htmlFor="profilePic" className="bg-[#0866FF] rounded-lg p-2 text-sm text-white">Upload</label>
-                                <p className="font-semibold">{renderProfile.user_name}</p>
+                    <div className="flex justify-center">
+                        <div className="flex items-center bg-gray-50 rounded-lg shadow-md justify-around py-5 border border-[#0866FF] w-[90vw] lg:w-[70vw] lg:mt-1 shadow-md">
+                            <div>
+                                {/* profile picture */}
+                                <div className="flex flex-col items-center space-y-2">
+                                    <img className="rounded-full border-2 border-blue-500" src={renderProfile.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"190px"} height={"190px"} />
+                                    <label htmlFor="profilePic" className="bg-[#0866FF] rounded-lg p-2 text-sm text-white">Upload</label>
+                                    <p className="font-semibold">{renderProfile.user_name}</p>
+                                </div>
                             </div>
-                        </div>
-                        {/* post follower following  */}
-                        <div>
-                            <ul className="flex items-center pb-10 m-5 gap-5 capitalize font-semibold">
-                                <li className="flex flex-col items-center"><p>posts</p> 10</li>
-                                <li className="flex flex-col items-center"><p>followers</p> 10</li>
-                                <li className="flex flex-col items-center"><p>following</p> 10</li>
-                            </ul>
-                        </div>
+                            {/* post follower following  */}
+                            <div>
+                                <ul className="flex items-center pb-10 m-5 gap-5 capitalize font-semibold">
+                                    <li className="flex flex-col items-center"><p>posts</p> 10</li>
+                                    <li className="flex flex-col items-center"><p>followers</p> 10</li>
+                                    <li className="flex flex-col items-center"><p>following</p> 10</li>
+                                </ul>
+                            </div>
 
+                        </div>
                     </div>
                 </>
             )

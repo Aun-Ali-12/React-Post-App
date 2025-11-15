@@ -4,9 +4,22 @@ import { supabase } from "../SupabaseClient"
 
 const AuthContext = createContext()
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+
+
+
+    //update user function
+    const updateUser = (newData) => {
+        setUser((prev) => (
+            {
+                ...prev,
+                ...newData
+            }
+        ))
+    }
+
 
     useEffect(() => {
         async function fetchUserInfo() {
@@ -25,6 +38,7 @@ export const AuthProvider = ({children}) => {
                     return
                 }
                 setUser({
+                    id: data.session.user.id,
                     name: data.session.user.user_metadata.user_name || 'No name found',
                     userEmail: data.session.user.user_metadata.email || 'No email found'
                 })
@@ -40,7 +54,7 @@ export const AuthProvider = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={{user , loading}}>
+        <AuthContext.Provider value={{ user, loading, updateUser }}>
             {children}
         </AuthContext.Provider>
     )

@@ -96,56 +96,57 @@ function PostCard({ type, compact }) {
 
     return (
         <>
-            {/* post will be shown here */}
-            <div className={`${type === "profile"
-                ? "grid grid-cols-2 gap-2 p-4"
-                : "flex flex-col items-center gap-5 p-4"
-                } animate-fadeInUp`}>
-                {
-                    !compact && post && post.map((value) => (
-                        // over all post 
-                        <div key={value.id} className="flex flex-col gap-2 w-fit p-5 border-2 border-[#0866FF] rounded-xl"  >
-                            <div className="flex items-center justify-between gap-5 ">
-                                {/* username and pic  */}
-                                <div className="flex items-center gap-2">
-                                    <img className="w-14 h-14 rounded-full border border-[#0866FF]" src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
-                                    <p>{value.user_info?.user_name}</p>
-                                </div>
+            <div className="flex justify-center mt-1">
+                {/* post will be shown here */}
+                <div className={`${type === "profile"
+                    ? "grid grid-cols-2 gap-2 p-4 w-[90vw] lg:w-[70vw]"
+                    : "flex flex-col items-center gap-5 p-4 w-[90vw] lg:w-[70vw] h-screen"
+                    } animate-fadeInUp lg:bg-gray-100 rounded-lg shadow-md border border-[#0866FF]`}>
+                    {
+                        !compact && post && post.map((value) => (
+                            // over all post 
+                            <div key={value.id} className="flex flex-col gap-2 p-5 border-2 border-[#0866FF] rounded-xl"  >
+                                <div className="flex items-center justify-between gap-5 ">
+                                    {/* username and pic  */}
+                                    <div className="flex items-center gap-2">
+                                        <img className="w-14 h-14 rounded-full border border-[#0866FF]" src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
+                                        <p>{value.user_info?.user_name}</p>
+                                    </div>
 
-                                {/* del and edit btn  */}
-                                <div className="relative">
-                                    <button onClick={() => { setPostId(value.id), setMenuOpen(!menuOpen) }}>
-                                        <FontAwesomeIcon className="text-[#0866FF]" icon={faEllipsisH} />
-                                    </button>
-                                    {postId === value.id && menuOpen && (
-                                        <div className="">
-                                            <ul className={`absolute right-0 top-0 py-10 px-8 bg-gray-100 w-sm shadow border border-[#0866FF] rounded ${menuOpen ? "animate-leftSlide" : "animate-closeBtn"}`}>
-                                                <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => { handleEdit(value) }}>Edit</li>
-                                                <li className="inline w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Delete</li>
-                                                <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Share</li>
-                                                <div>
-                                                    <button onClick={() => { setMenuOpen(false) }}><FontAwesomeIcon className="text-[#0866FF] relative left-14 top-8" icon={faCircleXmark} /></button>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                    )}
+                                    {/* del and edit btn  */}
+                                    <div className="relative">
+                                        <button onClick={() => { setPostId(value.id), setMenuOpen(!menuOpen) }}>
+                                            <FontAwesomeIcon className="text-[#0866FF]" icon={faEllipsisH} />
+                                        </button>
+                                        {postId === value.id && menuOpen && (
+                                            <div className="">
+                                                <ul className={`absolute right-0 top-0 py-10 px-8 bg-gray-100 w-sm shadow border border-[#0866FF] rounded ${menuOpen ? "animate-leftSlide" : "animate-closeBtn"}`}>
+                                                    <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => { handleEdit(value) }}>Edit</li>
+                                                    <li className="inline w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Delete</li>
+                                                    <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Share</li>
+                                                    <div>
+                                                        <button onClick={() => { setMenuOpen(false) }}><FontAwesomeIcon className="text-[#0866FF] relative left-14 top-8" icon={faCircleXmark} /></button>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-
+                                <div key={value.id}>
+                                    <img src={value.user_posturl} alt="post" width="200" /><br />
+                                    <p>{value.user_posttext}</p>
+                                </div>
                             </div>
+                        ))
+                    }
+                    {
+                        compact && post && post.map((value) => (
                             <div key={value.id}>
                                 <img src={value.user_posturl} alt="post" width="200" /><br />
-                                <p>{value.user_posttext}</p>
                             </div>
-                        </div>
-                    ))
-                }
-                {
-                    compact && post && post.map((value) => (
-                        <div key={value.id}>
-                            <img src={value.user_posturl} alt="post" width="200" /><br />
-                        </div>
-                    ))
-                }
+                        ))
+                    }
+                </div>
             </div>
         </>
     )
