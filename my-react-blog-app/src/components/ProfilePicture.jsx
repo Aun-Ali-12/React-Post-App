@@ -89,7 +89,7 @@ function UploadProfile() {
             {/* render photo here */}
             {renderProfile && (
                 <>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center lg:ml-[27vw]">
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md justify-around py-5 border border-[#0866FF] w-[90vw] lg:w-[70vw] lg:mt-1 shadow-md">
                             <div>
                                 {/* profile picture */}

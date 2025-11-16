@@ -96,17 +96,17 @@ function PostCard({ type, compact }) {
 
     return (
         <>
-            <div className="flex justify-center mt-1">
+            <div className="flex justify-center mt-1 lg:ml-[27vw]">
                 {/* post will be shown here */}
                 <div className={`${type === "profile"
-                    ? "grid grid-cols-2 gap-2 p-4 w-[90vw] lg:w-[70vw]"
-                    : "flex flex-col items-center gap-5 p-4 w-[90vw] lg:w-[70vw] h-screen"
+                    ? "grid grid-cols-3 gap-2 p-4 w-[90vw] lg:w-[70vw] object-cover"
+                    : "flex flex-col items-center gap-5 p-4 w-[90vw] lg:w-[70vw]"
                     } animate-fadeInUp lg:bg-gray-100 rounded-lg shadow-md border border-[#0866FF]`}>
                     {
                         !compact && post && post.map((value) => (
                             // over all post 
                             <div key={value.id} className="flex flex-col gap-2 p-5 border-2 border-[#0866FF] rounded-xl"  >
-                                <div className="flex items-center justify-between gap-5 ">
+                                <div className="flex items-center justify-between gap-5">
                                     {/* username and pic  */}
                                     <div className="flex items-center gap-2">
                                         <img className="w-14 h-14 rounded-full border border-[#0866FF]" src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
@@ -139,12 +139,12 @@ function PostCard({ type, compact }) {
                             </div>
                         ))
                     }
-                    {
-                        compact && post && post.map((value) => (
-                            <div key={value.id}>
-                                <img src={value.user_posturl} alt="post" width="200" /><br />
+                    {post && post.length > 0 ? (
+                        compact && post.map((value) => (
+                            <div key={value.id} className="">
+                                <img src={value.user_posturl} alt="post" width="200" className="lg:w-[23vw]" /><br />
                             </div>
-                        ))
+                        ))) : (<p>No post found</p>)
                     }
                 </div>
             </div>

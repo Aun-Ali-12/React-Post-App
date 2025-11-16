@@ -37,7 +37,7 @@ function Settings() {
 
     return (
         <>
-            <div className="flex justify-center">
+            <div className="flex justify-center lg:ml-[27vw]">
                 {/* userCurrent info  */}
                 <div>
                     <h1 className="bg-gray-100 w-[90vw] rounded p-5 text-xl text-[#0866FF] font-lighter lg:w-[70vw]">Settings</h1>
