@@ -12,11 +12,20 @@ function CreateAcc() {
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
 
+    const capitalLetter = /[A-Z]/
+    const specialChar = /[!@#$%^&*]/
     // on submit 
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault()
         SignUp()
+    }
+
+    //set pass value onchange 
+    const validatePass = (e) => {
+        const pass = e.target.value
+        setPassword(pass)
+        console.log(password);
     }
 
     //supabase signup function logic:
@@ -29,12 +38,24 @@ function CreateAcc() {
 
         //creating user account
         try {
+
+            // validating that all fields should be filled 
             if (!email || !password || !username) {
                 alert('Fill out all fields!')
                 return
             }
 
+            //password validation
+            if (!capitalLetter.test(password)) {
+                alert("Enter atleast one capital letter")
+                return
+            }
+            if (!specialChar.test(password)) {
+                alert("Enter atleast one special character")
+                return
+            }
             setLoading(true)
+
             const { error } = await supabase.auth.signUp({
                 email: email.trim().toLowerCase(),
                 password: password.trim(),
@@ -82,17 +103,10 @@ function CreateAcc() {
         <>
             {/* Overall container */}
             <div className="flex flex-col lg:flex-row xl:flex-row justify-center items-center h-screen bg-gray-100 animate-leftSlide">
-                {/* Image Section */}
-                <div className="hidden lg:flex xl:flex w-1/2 h-full">
-                    <img
-                        src={formImage}
-                        alt="Login image"
-                        className="w-full h-full object-cover"
-                    />
-                </div>
+
 
                 {/* Form Section */}
-                <div className="flex flex-col justify-center items-center w-full lg:w-1/2 xl:w-1/2 h-full px-8 py-10 gap-4 bg-white rounded-md text-black">
+                <div className="flex flex-col justify-center items-center w-full lg:w-[40vw] xl:w-1/2 h-full px-8 py-10 gap-4 bg-white rounded-md text-black">
                     {/* Form heading */}
                     <FontAwesomeIcon
                         icon={faUsers}
@@ -150,7 +164,7 @@ function CreateAcc() {
                                 type="password"
                                 placeholder="Enter your password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={validatePass}
                                 className="outline-none border-2 border-gray-300 w-full rounded px-2 py-1 text-md focus:outline-none focus:border-blue-500 transition-all duration-300"
                             />
                         </div>
@@ -160,16 +174,24 @@ function CreateAcc() {
                             disabled={loading}
                             className="bg-blue-500 w-full py-2 rounded-md text-white font-semibold hover:bg-blue-600 transition-all"
                         >
-                            {loading ? "Loading..." : "Log in"}
+                            {loading ? "creating your account..." : "Sign up"}
                         </button>
 
                         <p className="mt-4 text-center">
-                            Don't have an account?{" "}
+                            already have an account?{" "}
                             <Link to="/" className="text-blue-700 hover:underline">
                                 Login
                             </Link>
                         </p>
                     </form>
+                </div>
+                {/* Image Section */}
+                <div className="hidden lg:flex xl:flex lg:w-[60vw] w-1/2 h-full">
+                    <img
+                        src={formImage}
+                        alt="Login image"
+                        className="w-full h-full object-cover"
+                    />
                 </div>
             </div>
         </>

@@ -3,11 +3,14 @@ import { supabase } from "../SupabaseClient"
 import { usePost } from "../pages/Context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisH, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
-function PostCard({ type, compact }) {
+function PostCard({ type, compact, onEdit }) {
     const [post, setPost] = useState([]) //state which stores only userspecific data
     const [postId, setPostId] = useState(null) //state which will store id 
     const [menuOpen, setMenuOpen] = useState(false)
+    const [seeMore, setSM] = useState(false)
+    const [seeMoreId, setSeeMoreId] = useState(null)
     const { setEditingPost } = usePost()
 
 
@@ -76,14 +79,14 @@ function PostCard({ type, compact }) {
                 .delete()
                 .eq('id', id)
             if (error) {
-                console.log(error);
+                toast.error(error)
                 return
             }
-            console.log("deleted successfully");
+            toast.success("✅ Post deleted successfully")
             setPost(prev => prev.filter(p => p.id !== id))
         }
         catch (err) {
-            console.log(err);
+            alert(err)
         }
     }
 
@@ -93,52 +96,110 @@ function PostCard({ type, compact }) {
         setEditingPost(value)
     }
 
+    //see more function:
+    const seeMoreFunc = (id) => {
+        setSeeMoreId(id)
+        setSM(!seeMore)
+    }
+
 
     return (
         <>
-            <div className="flex justify-center mt-1 lg:ml-[27vw]">
+            <div className="flex justify-center mb-5 mt-1 lg:ml-[27vw]">
                 {/* post will be shown here */}
                 <div className={`${type === "profile"
-                    ? "grid grid-cols-3 gap-2 p-4 w-[90vw] lg:w-[70vw] object-cover"
+                    ? "grid grid-cols-1 gap-2 p-10 w-[90vw] md:grid-cols-2 gap-2 lg:grid-cols-3 gap-2 lg:w-[70vw] object-cover"
                     : "flex flex-col items-center gap-5 p-4 w-[90vw] lg:w-[70vw]"
                     } animate-fadeInUp lg:bg-gray-100 rounded-lg shadow-md border border-[#0866FF]`}>
-                    {
-                        !compact && post && post.map((value) => (
-                            // over all post 
-                            <div key={value.id} className="flex flex-col gap-2 p-5 border-2 border-[#0866FF] rounded-xl"  >
+
+                    {post && post.map((value) => (
+                        !compact && (
+                            <div
+                                key={value.id}
+                                className="relative flex flex-col gap-2 p-5 border-2 border-[#0866FF] rounded-xl"
+                            >
+                                {/* User Info + Menu Btn  */}
                                 <div className="flex items-center justify-between gap-5">
-                                    {/* username and pic  */}
+
                                     <div className="flex items-center gap-2">
-                                        <img className="w-14 h-14 rounded-full border border-[#0866FF]" src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"100px"} height={"100px"} />
-                                        <p>{value.user_info?.user_name}</p>
+                                        <img
+                                            className="w-14 h-14 rounded-full border border-[#0866FF]"
+                                            src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"}
+                                            alt=""
+                                        />
+
+                                        <p>{
+                                            value.user_info?.user_name}</p>
                                     </div>
 
-                                    {/* del and edit btn  */}
-                                    <div className="relative">
-                                        <button onClick={() => { setPostId(value.id), setMenuOpen(!menuOpen) }}>
-                                            <FontAwesomeIcon className="text-[#0866FF]" icon={faEllipsisH} />
-                                        </button>
-                                        {postId === value.id && menuOpen && (
-                                            <div className="">
-                                                <ul className={`absolute right-0 top-0 py-10 px-8 bg-gray-100 w-sm shadow border border-[#0866FF] rounded ${menuOpen ? "animate-leftSlide" : "animate-closeBtn"}`}>
-                                                    <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => { handleEdit(value) }}>Edit</li>
-                                                    <li className="inline w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Delete</li>
-                                                    <li className="inline-block w-10 rounded text-[#0866FF] p-1 relative text-[#0866FF] cursor-pointer after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-[#0866FF] after:transition-all after:duration-300 after:transform after:-translate-x-1/2 hover:after:w-full" onClick={() => handleDel(value.id)}>Share</li>
-                                                    <div>
-                                                        <button onClick={() => { setMenuOpen(false) }}><FontAwesomeIcon className="text-[#0866FF] relative left-14 top-8" icon={faCircleXmark} /></button>
-                                                    </div>
-                                                </ul>
-                                            </div>
-                                        )}
+                                    {/* MENU BUTTON */}
+                                    <button
+                                        onClick={() => {
+                                            setPostId(value.id);
+                                            setMenuOpen((prev) => !prev);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon className="text-[#0866FF]" icon={faEllipsisH} />
+                                    </button>
+                                </div>
+
+
+                                {/* --- Post Content --- */}
+                                <div className="">
+                                    <img src={value.user_posturl} alt="post" className={`${type === "feed" ? "lg:max-w-sm" : ""}`} />
+                                    {
+
+                                    }
+
+                                    {/* shows full text if seeMoreId has id other than if null than short text  */}
+                                    <div className="lg:w-[30vw]">
+                                        <p>
+                                            {seeMoreId === value.id ? value.user_posttext : `${value.user_posttext.slice(0, 15)}...`}
+                                        </p>
                                     </div>
+                                    <p>{value.user_posttext.length > 15 && (
+                                        //onclick this btn (see more) id will be set in seeMoreId so that whole text with see less btn will be showed and if already id is set then seeMoreId will set back to null with see more btn
+                                        <button className="text-sm underline text-blue-600" onClick={() => { setSeeMoreId(seeMoreId === value.id ? null : value.id) }}>{seeMoreId === value.id ? "See less" : "See more"}</button>
+                                    )}</p>
+
                                 </div>
-                                <div key={value.id}>
-                                    <img src={value.user_posturl} alt="post" width="200" /><br />
-                                    <p>{value.user_posttext}</p>
-                                </div>
+
+                                {/* --- MENU DROPDOWN --- */}
+                                {postId === value.id && menuOpen && (
+                                    <ul className={`absolute right-2 top-10 py-4 px-6 bg-gray-100 shadow border border-[#0866FF] rounded animate-leftSlide`}>
+                                        {type === "profile" ? (
+                                            <>
+                                                <li
+                                                    className="cursor-pointer text-[#0866FF] hover:underline"
+                                                    onClick={() => { handleEdit(value); onEdit(); setMenuOpen(false) }}
+                                                >
+                                                    Edit
+                                                </li>
+
+                                                <li
+                                                    className="cursor-pointer text-[#0866FF] hover:underline"
+                                                    onClick={() => handleDel(value.id)}
+                                                >
+                                                    Delete
+                                                </li>
+                                            </>
+                                        ) : (
+                                            <li className="cursor-pointer text-[#0866FF] hover:underline">
+                                                Share
+                                            </li>
+                                        )}
+
+                                        <button
+                                            onClick={() => setMenuOpen(false)}
+                                            className="mt-3"
+                                        >
+                                            <FontAwesomeIcon className="text-[#0866FF]" icon={faCircleXmark} />
+                                        </button>
+                                    </ul>
+                                )}
                             </div>
-                        ))
-                    }
+                        )
+                    ))}
                     {post && post.length > 0 ? (
                         compact && post.map((value) => (
                             <div key={value.id} className="">
@@ -147,7 +208,7 @@ function PostCard({ type, compact }) {
                         ))) : (<p>No post found</p>)
                     }
                 </div>
-            </div>
+            </div >
         </>
     )
 

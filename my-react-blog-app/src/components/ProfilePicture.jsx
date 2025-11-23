@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../SupabaseClient"
+import { toast } from "react-toastify"
+
 function UploadProfile() {
     const [profilePic, setProfilePic] = useState("")
     const [renderProfile, setRenderProfile] = useState("")
@@ -54,7 +56,6 @@ function UploadProfile() {
                 console.log(err);
             }
 
-
         } catch (err) {
             console.log(err);
         }
@@ -76,7 +77,7 @@ function UploadProfile() {
             setRenderProfile(profilePicture)
         }
         catch (err) {
-            console.log(err);
+            alert(err)
         }
     }
 
@@ -90,21 +91,21 @@ function UploadProfile() {
             {renderProfile && (
                 <>
                     <div className="flex justify-center lg:ml-[27vw]">
-                        <div className="flex items-center bg-gray-50 rounded-lg shadow-md justify-around py-5 border border-[#0866FF] w-[90vw] lg:w-[70vw] lg:mt-1 shadow-md">
+                        <div className="flex items-center bg-gray-50 rounded-lg shadow-md justify-around p-5 border border-[#0866FF] w-[90vw] lg:w-[70vw] lg:mt-1 shadow-md">
                             <div>
                                 {/* profile picture */}
                                 <div className="flex flex-col items-center space-y-2">
-                                    <img className="rounded-full border-2 border-blue-500" src={renderProfile.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"190px"} height={"190px"} />
+                                    <img className="rounded-full border border-blue-500 lg:border-2" src={renderProfile.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"} alt="" width={"190px"} height={"190px"} />
                                     <label htmlFor="profilePic" className="bg-[#0866FF] rounded-lg p-2 text-sm text-white">Upload</label>
-                                    <p className="font-semibold">{renderProfile.user_name}</p>
+                                    <p className="font-semibold text-sm md:text-md lg:text-lg">{renderProfile.user_name}</p>
                                 </div>
                             </div>
                             {/* post follower following  */}
                             <div>
                                 <ul className="flex items-center pb-10 m-5 gap-5 capitalize font-semibold">
-                                    <li className="flex flex-col items-center"><p>posts</p> 10</li>
-                                    <li className="flex flex-col items-center"><p>followers</p> 10</li>
-                                    <li className="flex flex-col items-center"><p>following</p> 10</li>
+                                    <li className="flex flex-col items-center text-sm md:text-lg lg:text-lg"><p>posts</p> 10</li>
+                                    <li className="flex flex-col items-center text-sm md:text-lg lg:text-lg"><p>followers</p> 10</li>
+                                    <li className="flex flex-col items-center text-sm md:text-lg lg:text-lg"><p>following</p> 10</li>
                                 </ul>
                             </div>
 

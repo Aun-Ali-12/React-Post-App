@@ -6,19 +6,30 @@ import PostCard from "../components/PostCard"
 import UploadProfile from "../components/ProfilePicture"
 import { PostProvider } from "./Context"
 import BlogLogo from "../components/Logo"
+import { useRef } from "react"
+function Profile() {
+const formRef = useRef(null) //reference of form 
 
-function Profile(){
-return(
-    <>
-    <Verify/>
-    <BlogLogo/>
-    <UploadProfile/>
-    <UserData/>
-    <PostProvider>
-    <UploadPost/>
-    <PostCard type = "profile" compact={true}/>
-    </PostProvider>
-    </>
-)
+const goToForm = () => {
+    formRef.current?.scrollIntoView({
+        behavior: "smooth", 
+        block: "start"
+    })
+}
+
+    return (
+        <>
+            <Verify />
+            <BlogLogo />
+            <UploadProfile />
+            <UserData />
+            <PostProvider>
+                <div ref={formRef}>
+                <UploadPost />
+                </div>
+                <PostCard onEdit={goToForm} type="profile" />
+            </PostProvider>
+        </>
+    )
 }
 export default Profile

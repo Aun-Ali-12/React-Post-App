@@ -1,15 +1,39 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../context/UserData"
 import { supabase } from "../SupabaseClient"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSignOut } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate } from "react-router-dom"
+
 function Settings() {
     const { user, updateUser } = useAuth()
+    const [loading, setLoading] = useState(false)
     const [editName, setEditName] = useState("")
     const [status, setStatus] = useState(false)
+    const navigate = useNavigate() //to relocate user to any specific page after clicking btn
+
     useEffect(() => {
         if (user?.name) {
             setEditName(user.name)
         }
     }, [user])
+
+    //logout function
+    const handleLogout = async (e) => {
+        try {
+            setLoading(true)
+            const { error } = await supabase.auth.signOut()
+            if (error) {
+                alert(error.message)
+                setLoading(false)
+                return
+            }
+            navigate("/")
+        }
+        catch (err) {
+            alert(err)
+        }
+    }
 
     const handleChange = async () => {
         setStatus(true)
@@ -37,7 +61,7 @@ function Settings() {
 
     return (
         <>
-            <div className="flex justify-center lg:ml-[27vw]">
+            <div className="flex flex-col mb-10 items-center justify-between lg:ml-[27vw] animate-fadeInUp">
                 {/* userCurrent info  */}
                 <div>
                     <h1 className="bg-gray-100 w-[90vw] rounded p-5 text-xl text-[#0866FF] font-lighter lg:w-[70vw]">Settings</h1>
@@ -53,8 +77,8 @@ function Settings() {
                                 <div className="mt-4"></div>
                                 <div>
                                     <h1 className="capitalize text-3xl">Change your info</h1><br />
-                                    <div className="">
-                                        <label htmlFor="" className="capitalize flex items-center gap-3 w-full mb-4">your name: <input type="text" value={editName} onChange={(e) => { setEditName(e.target.value) }} className="outline-none border-2 border-gray-300 w-full rounded px-2 py-1 text-md focus:outline-none focus:border-blue-500 transition-all duration-300" /><button className="bg-blue-500 p-2 rounded-sm text-white hover:bg-blue-600 transition-all capitalize" onClick={handleChange} disabled={status}>{status ? "updating..." : "update"}</button></label>
+                                    <div>
+                                        <label htmlFor="" className="capitalize flex items-center gap-3 w-full mb-4">your name: <input type="text" value={editName} onChange={(e) => { setEditName(e.target.value) }} className="outline-none border-2 border-gray-300 w-full rounded px-2 py-1 text-md focus:outline-none focus:border-blue-500 transition-all duration-300" /><button className="bg-blue-500 p-2 rounded-md text-white hover:bg-blue-600 transition-all capitalize" onClick={handleChange} disabled={status}>{status ? "updating..." : "update"}</button></label>
                                     </div>
                                 </div>
                             </div>
@@ -64,8 +88,9 @@ function Settings() {
                             <p>No info found</p>
                         )
                     }
-
-
+                    <div className="lg:w-[70vw] bg-gray-100">
+                        <button onClick={handleLogout} disabled={loading} className="flex items-center gap-4 text-lg p-2 hover:bg-red-500 hover:text-white rounded w-[70vw] transition"><FontAwesomeIcon icon={faSignOut} className="text-[#0866FF] text-xl" /> {loading ? "Logging out..." : "Logout"}</button>
+                    </div>
                 </div>
             </div>
         </>)
