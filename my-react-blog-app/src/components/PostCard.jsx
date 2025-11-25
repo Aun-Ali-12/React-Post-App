@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, Profiler } from "react"
 import { supabase } from "../SupabaseClient"
 import { usePost } from "../pages/Context"
+import { timeAgo } from "../utility/TimeAgo.Jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisH, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
@@ -53,17 +54,21 @@ function PostCard({ type, compact, onEdit }) {
     //function to show all user's post:
     async function allPost() {
         try {
-
             const { data: allPosts, error } = await supabase
                 .from('react_blogapp')
-                .select(`id, 
+                .select(`id,
+                    created_at, 
                     user_posturl, 
                     user_posttext, 
                     user_info
                     (user_name,
                      user_profile)`)
+                .order("created_at", { ascending: false })
 
-            !allPosts ? console.log(error) : setPost(allPosts)
+
+            !allPosts ? console.log(error) : setPost(allPosts);
+
+
         }
         catch (err) {
             console.log("Error while fetching all post");
@@ -96,11 +101,6 @@ function PostCard({ type, compact, onEdit }) {
         setEditingPost(value)
     }
 
-    //see more function:
-    const seeMoreFunc = (id) => {
-        setSeeMoreId(id)
-        setSM(!seeMore)
-    }
 
 
     return (
@@ -122,15 +122,23 @@ function PostCard({ type, compact, onEdit }) {
                                 <div className="flex items-center justify-between gap-5">
 
                                     <div className="flex items-center gap-2">
+                                        {/* userprofile picture  */}
                                         <img
                                             className="w-14 h-14 rounded-full border border-[#0866FF]"
                                             src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"}
                                             alt=""
                                         />
+                                        {/* user name  */}
 
-                                        <p>{
-                                            value.user_info?.user_name}</p>
+                                        <div>
+                                            <p>{
+                                                value.user_info?.user_name}</p>
+                                                {/* <p className={`${type==="profile"? "hidden":"block"} text-[8px]`}>posted on {new Date(value.created_at).toDateString()}</p> */}
+                                                <p className={`${type==="profile"? "hidden":"block"} text-[8px]`}>{timeAgo(value.created_at)}</p>
+                                            </div>
+                                        {/* post posted time frame  */}
                                     </div>
+
 
                                     {/* MENU BUTTON */}
                                     <button

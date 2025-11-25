@@ -5,12 +5,16 @@ import { toast } from "react-toastify"
 function UploadProfile() {
     const [profilePic, setProfilePic] = useState("")
     const [renderProfile, setRenderProfile] = useState("")
+    const [postCount, setPostCount] = useState(null) //stores post count
 
     // uploading profile picture:
     useEffect(() => {
         fetchProfile()
-    }, [renderProfile])
-
+    }, [])
+    
+    useEffect(() => {
+        fetchPostCount()
+    }, [])
 
     const UploadPic = async (e) => {
         let profilePic = e.target.files[0]
@@ -80,6 +84,34 @@ function UploadProfile() {
             alert(err)
         }
     }
+    fetchProfile()
+
+    //fetch userPostCount:
+    async function fetchPostCount() {
+        //getting user session
+        const { data } = await supabase.auth.getSession()
+        let userId = data.session.user.id
+        console.log(userId);
+
+        //getting count by comparing the id we have:
+        try {
+            const { data, count, error } = await supabase
+                .from('react_blogapp')
+                .select("*", { count: "exact", head: true })
+                .eq("user_id", userId)
+
+            if (error) {
+                console.log(error.message);
+                return
+            }
+            setPostCount(count)
+            console.log(postCount);
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <>
@@ -103,7 +135,7 @@ function UploadProfile() {
                             {/* post follower following  */}
                             <div>
                                 <ul className="flex items-center pb-10 m-5 gap-5 capitalize font-semibold">
-                                    <li className="flex flex-col items-center text-sm md:text-lg lg:text-lg"><p>posts</p> 10</li>
+                                    <li className="flex flex-col items-center text-sm md:text-lg lg:text-lg"><p>posts</p>{postCount}</li>
                                     <li className="flex flex-col items-center text-sm md:text-lg lg:text-lg"><p>followers</p> 10</li>
                                     <li className="flex flex-col items-center text-sm md:text-lg lg:text-lg"><p>following</p> 10</li>
                                 </ul>
