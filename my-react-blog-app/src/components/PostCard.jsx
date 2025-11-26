@@ -10,7 +10,6 @@ function PostCard({ type, compact, onEdit }) {
     const [post, setPost] = useState([]) //state which stores only userspecific data
     const [postId, setPostId] = useState(null) //state which will store id 
     const [menuOpen, setMenuOpen] = useState(false)
-    const [seeMore, setSM] = useState(false)
     const [seeMoreId, setSeeMoreId] = useState(null)
     const { setEditingPost } = usePost()
 
@@ -128,15 +127,15 @@ function PostCard({ type, compact, onEdit }) {
                                             src={value.user_info.user_profile || "https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png"}
                                             alt=""
                                         />
-                                        {/* user name  */}
 
                                         <div>
+                                            {/* user name  */}
                                             <p>{
                                                 value.user_info?.user_name}</p>
-                                                {/* <p className={`${type==="profile"? "hidden":"block"} text-[8px]`}>posted on {new Date(value.created_at).toDateString()}</p> */}
-                                                <p className={`${type==="profile"? "hidden":"block"} text-[8px]`}>{timeAgo(value.created_at)}</p>
-                                            </div>
-                                        {/* post posted time frame  */}
+                                            {/* <p className={`${type==="profile"? "hidden":"block"} text-[8px]`}>posted on {new Date(value.created_at).toDateString()}</p> */}
+                                            {/* post posted time frame  */}
+                                            <p className={`${type === "profile" ? "hidden" : "block"} text-[8px]`}>{timeAgo(value.created_at)}</p>
+                                        </div>
                                     </div>
 
 
@@ -160,7 +159,7 @@ function PostCard({ type, compact, onEdit }) {
                                     }
 
                                     {/* shows full text if seeMoreId has id other than if null than short text  */}
-                                    <div className="lg:w-[30vw]">
+                                    <div className={`${type === "feed" ? "lg:w-[30vw]" : ""}`}>
                                         <p>
                                             {seeMoreId === value.id ? value.user_posttext : `${value.user_posttext.slice(0, 15)}...`}
                                         </p>
